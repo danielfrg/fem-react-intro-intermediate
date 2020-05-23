@@ -1,0 +1,7 @@
+### JS ###
+node_modules
+.cache/
+dist/
+coverage/
+.env
+
