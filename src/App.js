@@ -1,16 +1,29 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom";
-import { Router, Link } from "@reach/router";
+import { Router } from "@reach/router";
+// import Loadable from "react-loadable";
 import pf from "petfinder-client";
-import Results from "./Results";
-import Details from "./Details";
-import SearchParams from "./SearchParams";
+
+import NavBar from "./NavBar";
 import { Provider } from "./SearchContext";
 
 const petfinder = pf({
   key: process.env.API_KEY,
   secret: process.env.API_SECRET,
 });
+
+// react-loadable version
+// const LoadableDetails = Loadable({
+//   loader: () => import("./Details"),
+//   loading() {
+//     return <h1>Loading split out code...</h1>;
+//   },
+// });
+
+// Native React version
+const Details = lazy(() => import("./Details"));
+const Results = lazy(() => import("./Results"));
+const SearchParams = lazy(() => import("./SearchParams"));
 
 class App extends React.Component {
   constructor(props) {
@@ -77,20 +90,15 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <header>
-          <Link to="/">Adopt Me!</Link>
-          <Link to="/search-params">
-            <span aria-label="search" role="img">
-              🔍
-            </span>
-          </Link>
-        </header>
+        <NavBar />
         <Provider value={this.state}>
-          <Router>
-            <Results path="/" />
-            <Details path="/details/:id" />
-            <SearchParams path="/search-params" />
-          </Router>
+          <Suspense fallback={<h1>loading route …</h1>}>
+            <Router>
+              <Results path="/" />
+              <Details path="/details/:id" />
+              <SearchParams path="/search-params" />
+            </Router>
+          </Suspense>
         </Provider>
       </div>
     );

@@ -1,8 +1,11 @@
 import React from "react";
+import { lazy } from "react";
 import pf from "petfinder-client";
 import { navigate } from "@reach/router";
+
 import Carousel from "./Carousel";
-import Modal from "./Modal";
+// import Modal from "./Modal";
+const Modal = lazy(() => import("./Modal"));
 
 const petfinder = pf({
   key: process.env.API_KEY,
