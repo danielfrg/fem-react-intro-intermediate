@@ -11,6 +11,7 @@
     "clean": "rm -rf .cache dist coverage",
     "cleanall": "npm run clean && rm -rf node_modules",
     "dev": "parcel src/index.html",
+    "build": "parcel build --public-url ./dist/ src/index.html",
     "fmt": "prettier --write \"src/**/*.{js,jsx,css,json}\"",
     "fmt:check": "prettier --list-different \"src/**/*.{js,jsx,css,json}\"",
     "lint": "eslint \"src/**/*.{js,jsx }\"",
